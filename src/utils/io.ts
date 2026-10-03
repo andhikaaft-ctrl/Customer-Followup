@@ -11,9 +11,9 @@ export const exportJSON = (cs: Customer[]) =>
   download('customers.json', JSON.stringify({ version: 1, customers: cs }, null, 2), 'application/json');
 
 export function exportCSV(cs: Customer[]) {
-  const head = ['Nama', 'WhatsApp', 'Tanggal Pembelian', 'Jadwal Service', 'Status', 'Follow Up Ulang', 'Alasan Cancel', 'Catatan'];
+  const head = ['Nama', 'WhatsApp', 'Nomor Plat', 'Nomor Rangka', 'Nomor Mesin', 'Tanggal Pembelian', 'Jadwal Service', 'Status', 'Follow Up Ulang', 'Alasan Cancel', 'Catatan'];
   const q = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  const rows = cs.map((c) => [c.name, c.whatsapp, fmt(c.purchaseDate), fmt(serviceDate(c)), c.status, fmt(c.rescheduleDate), c.cancelReason, c.notes].map(q).join(','));
+  const rows = cs.map((c) => [c.name, c.whatsapp, c.licensePlate, c.chassisNumber, c.engineNumber, fmt(c.purchaseDate), fmt(serviceDate(c)), c.status, fmt(c.rescheduleDate), c.cancelReason, c.notes].map(q).join(','));
   download('customers.csv', '\uFEFF' + [head.map(q).join(','), ...rows].join('\r\n'), 'text/csv;charset=utf-8');
 }
 
@@ -29,6 +29,9 @@ export function sanitize(raw: unknown): Customer | null {
   const now = new Date().toISOString();
   return {
     id: str(r.id) || crypto.randomUUID(), name, whatsapp: normalizeWA(wa), purchaseDate: pd, status,
+    licensePlate: str(r.licensePlate).trim().toUpperCase(),
+    chassisNumber: str(r.chassisNumber).trim().toUpperCase(),
+    engineNumber: str(r.engineNumber).trim().toUpperCase(),
     rescheduleDate: isValidISO(rd) ? rd : '', cancelReason: str(r.cancelReason), notes: str(r.notes),
     createdAt: str(r.createdAt) || now, updatedAt: str(r.updatedAt) || now,
   };
