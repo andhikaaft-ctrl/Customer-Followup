@@ -32,3 +32,9 @@ npm run preview  # coba hasil build
 Menu **Data Management**: Export JSON (backup), Import JSON (restore, mengganti data), Export CSV (Excel/Sheets), Reset Demo Data, Clear All Data.
 Data demo hanya dimuat saat pertama kali membuka aplikasi; data asli tidak pernah ditimpa otomatis.
 Karena data ada di browser, lakukan Export JSON secara berkala.
+
+## Update: Coating Service Management
+- Jadwal service dihitung dari **Tanggal Aplikasi Coating**: Service n = tanggal coating + 180 × n hari. Semua logika ada di `src/utils/service.ts` (single source of truth).
+- Premium = 6 service, Double = 4 service (Service 1 sudah termasuk). Sisa = total − selesai. Hanya service yang ditandai selesai (tombol **Service Selesai** atau status GOAL) yang mengurangi sisa.
+- Data lama (v1) otomatis dimigrasi saat dibaca: coating date ← tanggal pembelian, paket default Premium, record GOAL lama dihitung 1 service selesai.
+- Excel: Data Management → Download Template / Import Excel (preview + deteksi duplikat Nama+No. Tlp) / Export Excel. Semua diproses di browser (SheetJS `xlsx`).
