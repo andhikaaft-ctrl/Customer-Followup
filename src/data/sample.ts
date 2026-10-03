@@ -7,6 +7,7 @@ const s = (name: string, wa: string, offset: number, status: Status, extra: Part
   const now = new Date().toISOString();
   return {
     id: crypto.randomUUID(), name, whatsapp: wa, purchaseDate: addDays(todayISO(), offset - SERVICE_DAYS), status,
+    licensePlate: '', chassisNumber: '', engineNumber: '',
     rescheduleDate: '', cancelReason: '', notes: '', createdAt: now, updatedAt: now, ...extra,
   };
 };

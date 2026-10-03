@@ -7,6 +7,9 @@ export interface Customer {
   id: string;
   name: string;
   whatsapp: string; // format 628xxxxxxxxx
+  licensePlate: string;
+  chassisNumber: string;
+  engineNumber: string;
   purchaseDate: string; // YYYY-MM-DD
   status: Status;
   rescheduleDate: string; // YYYY-MM-DD atau ''
